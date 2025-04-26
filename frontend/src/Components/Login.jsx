@@ -1,23 +1,13 @@
 import React from "react";
 
- function Register() {
+function Login() {
   return (
     <div className="d-flex align-items-center justify-content-center min-vh-100 bg-light p-4">
       <div className="card shadow-sm" style={{ maxWidth: "400px", width: "100%" }}>
         <div className="card-body p-4">
-          <h2 className="text-center mb-4">Create an Account</h2>
+          <h2 className="text-center mb-4">Login to Your Account</h2>
 
           <form>
-            <div className="mb-3">
-              <label className="form-label">Username</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="johndoe123"
-                required
-              />
-            </div>
-
             <div className="mb-3">
               <label className="form-label">Email Address</label>
               <input
@@ -36,21 +26,20 @@ import React from "react";
                 placeholder="••••••••"
                 required
               />
-              <div className="form-text">Must be at least 8 characters</div>
             </div>
 
             <div className="d-grid mt-4">
               <button type="submit" className="btn btn-primary">
-                Register
+                Login
               </button>
             </div>
           </form>
 
           <div className="text-center mt-3">
             <small className="text-muted">
-              Already have an account?
+              Don't have an account?
               <a href="#" className="ms-1 text-primary text-decoration-none">
-                Sign in
+                Register
               </a>
             </small>
           </div>
@@ -60,4 +49,4 @@ import React from "react";
   );
 }
 
-export default Register;
+export default Login;
