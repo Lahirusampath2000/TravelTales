@@ -38,7 +38,7 @@ function Login() {
           <div className="text-center mt-3">
             <small className="text-muted">
               Don't have an account?
-              <a href="#" className="ms-1 text-primary text-decoration-none">
+              <a href="/register" className="ms-1 text-primary text-decoration-none">
                 Register
               </a>
             </small>

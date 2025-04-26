@@ -49,7 +49,7 @@ import React from "react";
           <div className="text-center mt-3">
             <small className="text-muted">
               Already have an account?
-              <a href="#" className="ms-1 text-primary text-decoration-none">
+              <a href="/login" className="ms-1 text-primary text-decoration-none">
                 Sign in
               </a>
             </small>
