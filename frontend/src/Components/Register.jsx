@@ -1,6 +1,14 @@
-import React from "react";
+import React, { use } from "react";
+import { useState } from "react";
 
  function Register() {
+
+    const[values,setValues]=useState({
+        username:"",
+        email:"",
+        password:""
+    })
+
   return (
     <div className="d-flex align-items-center justify-content-center min-vh-100 bg-light p-4">
       <div className="card shadow-sm" style={{ maxWidth: "400px", width: "100%" }}>
@@ -14,6 +22,7 @@ import React from "react";
                 type="text"
                 className="form-control"
                 placeholder="johndoe123"
+                onChange={(e)=>setValues({...values,username:e.target.value})}
                 required
               />
             </div>
@@ -24,6 +33,7 @@ import React from "react";
                 type="email"
                 className="form-control"
                 placeholder="john@example.com"
+                onChange={(e)=>setValues({...values,email:e.target.value})}
                 required
               />
             </div>
@@ -34,6 +44,7 @@ import React from "react";
                 type="password"
                 className="form-control"
                 placeholder="••••••••"
+                onChange={(e)=>setValues({...values,password:e.target.value})}
                 required
               />
               <div className="form-text">Must be at least 8 characters</div>
