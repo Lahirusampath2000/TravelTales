@@ -1,5 +1,7 @@
+import { hasFormSubmit } from "@testing-library/user-event/dist/utils";
 import React, { use } from "react";
 import { useState } from "react";
+import axios from "axios";
 
  function Register() {
 
@@ -9,13 +11,20 @@ import { useState } from "react";
         password:""
     })
 
+    const handleFormSubmit = (event) => {
+      event.preventDefault();
+      axios.post("http://localhost:8080/register", values)
+      .then(res=>console.log(res))
+      .catch(err=>console.log(err))
+    }
+
   return (
     <div className="d-flex align-items-center justify-content-center min-vh-100 bg-light p-4">
       <div className="card shadow-sm" style={{ maxWidth: "400px", width: "100%" }}>
         <div className="card-body p-4">
           <h2 className="text-center mb-4">Create an Account</h2>
 
-          <form>
+          <form onSubmit={handleFormSubmit}>
             <div className="mb-3">
               <label className="form-label">Username</label>
               <input
