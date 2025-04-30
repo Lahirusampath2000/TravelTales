@@ -7,6 +7,8 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 
 
+
+const salt=10;
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -22,11 +24,15 @@ const db = mysql.createConnection({
 
 app.post('/register', (req, res) => {
     const sql = "INSERT INTO users (`username`, `email`, `password`) VALUES (?)";
-    const values=[
-        req.body.username,
-        req.body.email,
-        req.body.password
-    ];
+    bcrypt.hash(req.body.password.toSring(),salt,(err,hashedPassword)=>{
+        if(err)return res.json(err);
+        const values=[
+            req.body.username,
+            req.body.email,
+            req.body.password
+        ];
+    })
+    
 })
 
 app.listen(8000, () => {
