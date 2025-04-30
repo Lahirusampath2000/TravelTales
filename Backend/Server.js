@@ -24,17 +24,26 @@ const db = mysql.createConnection({
 
 app.post('/register', (req, res) => {
     const sql = "INSERT INTO users (`username`, `email`, `password`) VALUES (?)";
-    bcrypt.hash(req.body.password.toSring(),salt,(err,hashedPassword)=>{
-        if(err)return res.json(err);
+    bcrypt.hash(req.body.password.toString(),salt,(err,hashedPassword)=>{
+        if(err){
+            console.log(err);
+            return res.json(err, "Error hashing password");
+        }
+            
         const values=[
             req.body.username,
             req.body.email,
-            req.body.password
-        ];
+            hashedPassword
+        ]
+
+        db.query(sql,[values],(err,data)=>{
+            if(err)return res.json(err);
+            return res.json("User has been created successfully")
+        })
     })
     
 })
 
 app.listen(8000, () => {
-    console.log("Server is running on port 8081")
+    console.log("Server is running on port 8000")
 });

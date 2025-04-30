@@ -1,4 +1,4 @@
-import { hasFormSubmit } from "@testing-library/user-event/dist/utils";
+
 import React, { use } from "react";
 import { useState } from "react";
 import axios from "axios";
@@ -13,7 +13,7 @@ import axios from "axios";
 
     const handleFormSubmit = (event) => {
       event.preventDefault();
-      axios.post("http://localhost:8080/register", values)
+      axios.post("http://localhost:8000/register", values)
       .then(res=>console.log(res))
       .catch(err=>console.log(err))
     }
