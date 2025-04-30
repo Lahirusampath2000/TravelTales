@@ -20,6 +20,15 @@ const db = mysql.createConnection({
     database: process.env.DB_NAME
 });
 
+app.post('/register', (req, res) => {
+    const sql = "INSERT INTO users (`username`, `email`, `password`) VALUES (?)";
+    const values=[
+        req.body.username,
+        req.body.email,
+        req.body.password
+    ];
+})
+
 app.listen(8000, () => {
     console.log("Server is running on port 8081")
 });
