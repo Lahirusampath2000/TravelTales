@@ -11,11 +11,21 @@ import axios from "axios";
         password:""
     })
 
+    const navigate = useNavigate();
     const handleFormSubmit = (event) => {
       event.preventDefault();
       axios.post("http://localhost:8000/register", values)
-      .then(res=>console.log(res))
+      .then(res=>{
+        console.log(res.data)
+        if(res.data.status==="ok"){
+          alert("Registration Successful")
+          navigate("/login")
+        }else{
+          alert("Registration Failed")
+        }
+      })
       .catch(err=>console.log(err))
+  
     }
 
   return (
