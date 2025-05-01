@@ -66,7 +66,6 @@ import axios from "axios";
                 onChange={(e)=>setValues({...values,password:e.target.value})}
                 required
               />
-              <div className="form-text">Must be at least 8 characters</div>
             </div>
 
             <div className="d-grid mt-4">
