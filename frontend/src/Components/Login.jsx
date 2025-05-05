@@ -1,18 +1,43 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import{useNavigate} from "react-router-dom";
+import axios from "axios";
 
 function Login() {
+  const[values,setValues]=useState({
+          email:"",
+          password:""
+      })
+  
+      const navigate = useNavigate();
+      const handleFormSubmit = (event) => {
+        event.preventDefault();
+        axios.post("http://localhost:8000/login", values)
+        .then(res=>{
+          console.log(res.data)
+          if(res.data.status==="ok"){
+            alert("login Successful")
+            navigate("/")
+          }else{
+            alert("Registration Failed")
+          }
+        })
+        .catch(err=>console.log(err))
+    
+      }
   return (
     <div className="d-flex align-items-center justify-content-center min-vh-100 bg-light p-4">
       <div className="card shadow-sm" style={{ maxWidth: "400px", width: "100%" }}>
         <div className="card-body p-4">
           <h2 className="text-center mb-4">Login to Your Account</h2>
 
-          <form>
+          <form onSubmit={handleFormSubmit}>
             <div className="mb-3">
               <label className="form-label">Email Address</label>
               <input
                 type="email"
                 className="form-control"
+                onChange={(e)=>setValues({...values,email:e.target.value})}
                 placeholder="john@example.com"
                 required
               />
@@ -23,6 +48,7 @@ function Login() {
               <input
                 type="password"
                 className="form-control"
+                onChange={(e)=>setValues({...values,password:e.target.value})}
                 placeholder="••••••••"
                 required
               />
