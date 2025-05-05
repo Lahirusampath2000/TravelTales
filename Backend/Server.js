@@ -44,6 +44,19 @@ app.post('/register', (req, res) => {
     
 })
 
+app.post('/login', (req, res) => {
+    const sql='SELECT * FROM users WHERE email=?';
+    db.query(sql,[req.body.email],(err,data)=>{
+        if(err)return res.json(err);
+        if(data.length>0){
+
+        }else{
+            return res.status(404).json("User not found")
+        }
+})
+
+})
+
 app.listen(8000, () => {
     console.log("Server is running on port 8000")
 });
