@@ -13,10 +13,10 @@ function Login() {
       const navigate = useNavigate();
       const handleFormSubmit = (event) => {
         event.preventDefault();
-        axios.post("http://localhost:8000/login", values)
+        axios.post("http://localhost:8000/login", values, {withCredentials:true})
         .then(res=>{
           console.log(res.data)
-          if(res.data.status==="ok"){
+          if(res.data.status==="success"){
             alert("login Successful")
             navigate("/")
           }else{
