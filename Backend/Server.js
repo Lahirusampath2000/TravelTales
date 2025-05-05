@@ -49,6 +49,15 @@ app.post('/login', (req, res) => {
     db.query(sql,[req.body.email],(err,data)=>{
         if(err)return res.json(err);
         if(data.length>0){
+            bcrypt.compare(req.body.password.toString(),data[0].password,(err,isMatch)=>{
+                if(err)return res.json(err);
+                if(isMatch){
+                    return res.status(200).json(data[0]);
+                }else{
+                    return res.status(400).json("Wrong password or username")
+                }
+            
+            })
 
         }else{
             return res.status(404).json("User not found")
