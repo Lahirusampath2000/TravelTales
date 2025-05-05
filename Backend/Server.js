@@ -45,26 +45,38 @@ app.post('/register', (req, res) => {
 })
 
 app.post('/login', (req, res) => {
-    const sql='SELECT * FROM users WHERE email=?';
-    db.query(sql,[req.body.email],(err,data)=>{
-        if(err)return res.json(err);
-        if(data.length>0){
-            bcrypt.compare(req.body.password.toString(),data[0].password,(err,isMatch)=>{
-                if(err)return res.json(err);
-                if(isMatch){
-                    return res.status(200).json(data[0]);
-                }else{
-                    return res.status(400).json("Wrong password or username")
+    const sql = 'SELECT * FROM users WHERE email = ?';
+    db.query(sql, [req.body.email], (err, data) => {
+        if (err) return res.status(500).json({ status: "error", error: "Database error" });
+        
+        if (data.length > 0) {
+            bcrypt.compare(req.body.password.toString(), data[0].password, (err, isMatch) => {
+                if (err) return res.status(500).json({ status: "error", error: "Server error" });
+                
+                if (isMatch) {
+                    return res.status(200).json({ 
+                        status: "ok", 
+                        user: {
+                            id: data[0].id,
+                            username: data[0].username,
+                            email: data[0].email
+                        }
+                    });
+                } else {
+                    return res.status(400).json({ 
+                        status: "error", 
+                        error: "Wrong password or username" 
+                    });
                 }
-            
-            })
-
-        }else{
-            return res.status(404).json("User not found")
+            });
+        } else {
+            return res.status(404).json({ 
+                status: "error", 
+                error: "User not found" 
+            });
         }
-})
-
-})
+    });
+});
 
 app.listen(8000, () => {
     console.log("Server is running on port 8000")

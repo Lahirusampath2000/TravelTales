@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import{useNavigate} from "react-router-dom";
 import axios from "axios";
+import { useState } from "react";
 
 function Login() {
   const[values,setValues]=useState({
@@ -19,7 +20,7 @@ function Login() {
             alert("login Successful")
             navigate("/")
           }else{
-            alert("Registration Failed")
+            alert(res.data.error)
           }
         })
         .catch(err=>console.log(err))
