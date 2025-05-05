@@ -11,7 +11,10 @@ import dotenv from 'dotenv';
 const salt=10;
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+}));
 app.use(cookieParser());
 dotenv.config();
 
@@ -54,13 +57,17 @@ app.post('/login', (req, res) => {
                 if (err) return res.status(500).json({ status: "error", error: "Server error" });
                 
                 if (isMatch) {
+                    const token = jwt.sign({ id: data[0].id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+                    res.cookie('access_token', token, {
+                        httpOnly: true,
+                        secure: true,
+                        sameSite: 'strict',
+                        maxAge: 3600000 // 1 hour
+                    });
                     return res.status(200).json({ 
-                        status: "ok", 
-                        user: {
-                            id: data[0].id,
-                            username: data[0].username,
-                            email: data[0].email
-                        }
+                        status: "success", 
+                        message: "Login successful", 
+                        userId: data[0].id 
                     });
                 } else {
                     return res.status(400).json({ 
