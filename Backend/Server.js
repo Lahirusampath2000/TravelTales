@@ -145,10 +145,16 @@ app.post('/add-new-post', verifyUser,  (req, res) => {
 
     db.query(query, [values], (err, data) => {
         if (err) {
-            console.log(err);
-            return res.json(err);
+            console.error("Database error:", err);
+            return res.status(500).json({ 
+                status: "error", 
+                error: "Failed to create post" 
+            });
         }
-        return res.json("Post has been created successfully");
+        return res.status(200).json({ 
+            status: "ok", 
+            message: "Post created successfully" 
+        });
     });
 });
 

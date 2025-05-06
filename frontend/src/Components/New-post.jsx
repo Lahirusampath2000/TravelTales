@@ -1,33 +1,49 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const NewPost = () => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [countryName, setCountryName] = useState('');
-    const [Date, setDate] = useState('');
+    const [dateOfVisit, setDateOfVisit] = useState('');
+    const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log({ title, content ,countryName, Date});
-        axios.post("http://localhost:8000/add-new-post", values)
-      .then(res=>{
-        console.log(res.data)
-        if(res.data.status==="ok"){
-          alert("Registration Successful")
-          navigate("/login")
-        }else{
-          alert("Registration Failed")
-        }
-      })
-      .catch(err=>console.log(err))
+        
+        const values = {
+            title,
+            content,
+            country_name: countryName,
+            date_of_visit: dateOfVisit
+        };
 
-      
+        try {
+            const response = await axios.post(
+                "http://localhost:8000/add-new-post", 
+                values,
+                { withCredentials: true }
+            );
+            
+            if (response.data.status === "ok") {
+                alert("Post created successfully!");
+                navigate("/dashboard");
+            } else {
+                alert("Failed to create post");
+                console.log(response.data);
+            }
+        } catch (error) {
+            console.error("Error creating post:", error);
+            alert("Error creating post. Please try again.");
+        }
     };
 
     return (
         <div style={styles.container}>
             <h1 style={styles.heading}>Create a New Blog Post</h1>
             <form onSubmit={handleSubmit} style={styles.form}>
+                {/* Title Input */}
                 <div style={styles.formGroup}>
                     <label htmlFor="title" style={styles.label}>Title</label>
                     <input
@@ -37,8 +53,11 @@ const NewPost = () => {
                         onChange={(e) => setTitle(e.target.value)}
                         style={styles.input}
                         placeholder="Enter post title"
+                        required
                     />
                 </div>
+
+                {/* Content Input */}
                 <div style={styles.formGroup}>
                     <label htmlFor="content" style={styles.label}>Content</label>
                     <textarea
@@ -47,31 +66,38 @@ const NewPost = () => {
                         onChange={(e) => setContent(e.target.value)}
                         style={styles.textarea}
                         placeholder="Write your post content here"
+                        required
                     />
                 </div>
+
+                {/* Country Name Input */}
                 <div style={styles.formGroup}>
                     <label htmlFor="countryName" style={styles.label}>Country Name</label>
                     <input
                         type="text"
                         id="countryName"
                         value={countryName}
-                        onChange={(e) => setTitle(e.target.value)}
+                        onChange={(e) => setCountryName(e.target.value)}
                         style={styles.input}
                         placeholder="Enter Country name"
+                        required
                     />
                 </div>
+
+                {/* Date of Visit Input */}
                 <div style={styles.formGroup}>
-                    <label htmlFor="Date" style={styles.label}>Date of visit</label>
+                    <label htmlFor="dateOfVisit" style={styles.label}>Date of visit</label>
                     <input
-                        type="text"
-                        id="Date"
-                        value={Date}
-                        onChange={(e) => setTitle(e.target.value)}
+                        type="date"
+                        id="dateOfVisit"
+                        value={dateOfVisit}
+                        onChange={(e) => setDateOfVisit(e.target.value)}
                         style={styles.input}
-                        placeholder="Date of visit"
+                        required
                     />
                 </div>
-                <button type="submit" style={styles.button}>Submit</button>
+
+                <button type="submit" style={styles.button}>Create Post</button>
             </form>
         </div>
     );
