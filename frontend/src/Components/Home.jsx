@@ -26,9 +26,9 @@ const Home = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  // Logout handler
+  
   const handleLogout = () => {
-    axios.post('http://localhost:8000/logout', {}, { withCredentials: true })
+    axios.get('http://localhost:8000/logout', {}, { withCredentials: true })
       .then(() => {
         setAuth(false);
         setMessage('Logged out successfully');

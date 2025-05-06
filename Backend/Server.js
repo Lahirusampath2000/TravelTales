@@ -64,6 +64,11 @@ app.get('/', verifyUser, (req, res) => {
     });
 });
 
+app.get('/logout', (req, res) => {
+    res.clearCookie('access_token');
+    return res.status(200).json({ status: "success", message: "Logged out successfully" });
+})
+
 
 
 app.post('/register', (req, res) => {
