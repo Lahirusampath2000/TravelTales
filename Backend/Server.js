@@ -160,7 +160,7 @@ app.post('/add-new-post', verifyUser,  (req, res) => {
 
 //fetch blog posts from db
 app.get('/get-posts', (req, res) => {
-    const sql = 'SELECT * FROM blog_posts';
+    const sql = 'SELECT * FROM blog_posts ORDER BY created_at DESC';
     db.query(sql, (err, data) => {
         if (err) return res.status(500).json({ status: "error", error: "Database error" });
         
