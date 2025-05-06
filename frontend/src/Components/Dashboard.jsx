@@ -1,22 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios';
 
-const blogPosts = [
-  
-];
-
-const currentUserId = 1; 
+const currentUserId = 1;
 
 const Dashboard = () => {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:8000/get-posts', { withCredentials: true })
+      .then(res => {
+        if (res.data.status === 'success') {
+          setPosts(res.data.posts);
+        }
+      })
+      .catch(err => {
+        console.error("Error fetching posts:", err);
+      });
+  }, []);
+
   return (
     <div className="container my-5">
       <h1 className="mb-4">Welcome to the blog</h1>
       <div className="row">
-        {blogPosts.map((post) => (
+        {posts.map((post) => (
           <div className="col-md-6 col-lg-4 mb-4" key={post.id}>
             <div className="card h-100">
               <div className="card-body">
-                
+                <h5 className="card-title">{post.title}</h5>
               </div>
               {currentUserId === post.user_id && (
                 <div className="card-footer bg-white">
@@ -29,7 +40,6 @@ const Dashboard = () => {
         ))}
       </div>
 
-      
       <nav>
         <ul className="pagination justify-content-center">
           <li className="page-item disabled"><span className="page-link">Previous</span></li>
