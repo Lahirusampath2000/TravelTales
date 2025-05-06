@@ -47,7 +47,6 @@ const Navbar = () => {
         <div className="d-flex">
           {isAuth ? (
             <>
-              <span className="me-3">Hi, {username}</span>
               <button className="btn btn-outline-danger" onClick={handleLogout}>Logout</button>
             </>
           ) : (
