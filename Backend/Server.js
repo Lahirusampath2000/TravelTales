@@ -158,6 +158,26 @@ app.post('/add-new-post', verifyUser,  (req, res) => {
     });
 });
 
+//fetch blog posts from db
+app.get('/get-posts', (req, res) => {
+    const sql = 'SELECT * FROM blog_posts';
+    db.query(sql, (err, data) => {
+        if (err) return res.status(500).json({ status: "error", error: "Database error" });
+        
+        if (data.length > 0) {
+            return res.status(200).json({ 
+                status: "success", 
+                posts: data 
+            });
+        } else {
+            return res.status(404).json({ 
+                status: "error", 
+                error: "No posts found" 
+            });
+        }
+    });
+});
+
 app.listen(8000, () => {
     console.log("Server is running on port 8000")
 });
