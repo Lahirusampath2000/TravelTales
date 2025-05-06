@@ -8,7 +8,19 @@ const NewPost = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log({ title, content });
+        console.log({ title, content ,countryName, Date});
+        axios.post("http://localhost:8000/add-new-post", values)
+      .then(res=>{
+        console.log(res.data)
+        if(res.data.status==="ok"){
+          alert("Registration Successful")
+          navigate("/login")
+        }else{
+          alert("Registration Failed")
+        }
+      })
+      .catch(err=>console.log(err))
+
       
     };
 

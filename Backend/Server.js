@@ -132,7 +132,7 @@ app.post('/login', (req, res) => {
 });
 
 //add post route
-app.post('/add-new-post', (req, res) => {
+app.post('/add-new-post', verifyUser,  (req, res) => {
     const query = "INSERT INTO blog_posts (title, content, country_name, date_of_visit, user_id) VALUES (?)";
 
     const values = [
@@ -140,7 +140,7 @@ app.post('/add-new-post', (req, res) => {
         req.body.content,
         req.body.country_name,
         req.body.date_of_visit,
-        req.body.user_id
+        req.user.id
     ];
 
     db.query(query, [values], (err, data) => {
