@@ -25,6 +25,19 @@ const db = mysql.createConnection({
     database: process.env.DB_NAME
 });
 
+const verifyUser = (req, res, next) => {
+    const token = req.cookies.access_token;
+    if (!token) return res.status(401).json({ status: "error", error: "Unauthorized" });
+    
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) return res.status(403).json({ status: "error", error: "Forbidden" });
+        req.user = user;
+        next();
+    });
+}
+
+
+
 app.post('/register', (req, res) => {
     const sql = "INSERT INTO users (`username`, `email`, `password`) VALUES (?)";
     bcrypt.hash(req.body.password.toString(),salt,(err,hashedPassword)=>{
