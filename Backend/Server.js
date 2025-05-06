@@ -36,6 +36,26 @@ const verifyUser = (req, res, next) => {
     });
 }
 
+app.get('/dashboard', verifyUser, (req, res) => {
+    const sql = 'SELECT * FROM users WHERE id = ?';
+    db.query(sql, [req.user.id], (err, data) => {
+        if (err) return res.status(500).json({ status: "error", error: "Database error" });
+        
+        if (data.length > 0) {
+            return res.status(200).json({ 
+                status: "success", 
+                user: data[0] 
+            });
+        } else {
+            return res.status(404).json({ 
+                status: "error", 
+                error: "User not found" 
+            });
+        }
+    });
+
+})
+
 
 
 app.post('/register', (req, res) => {
