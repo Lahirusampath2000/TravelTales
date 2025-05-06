@@ -4,11 +4,12 @@ const NewPost = () => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [countryName, setCountryName] = useState('');
+    const [Date, setDate] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log({ title, content });
-       // Add logic to handle the new post submission
+      
     };
 
     return (
@@ -45,6 +46,17 @@ const NewPost = () => {
                         onChange={(e) => setTitle(e.target.value)}
                         style={styles.input}
                         placeholder="Enter Country name"
+                    />
+                </div>
+                <div style={styles.formGroup}>
+                    <label htmlFor="Date" style={styles.label}>Date of visit</label>
+                    <input
+                        type="text"
+                        id="Date"
+                        value={Date}
+                        onChange={(e) => setTitle(e.target.value)}
+                        style={styles.input}
+                        placeholder="Date of visit"
                     />
                 </div>
                 <button type="submit" style={styles.button}>Submit</button>

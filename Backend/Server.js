@@ -131,6 +131,27 @@ app.post('/login', (req, res) => {
     });
 });
 
+//add post route
+app.post('/add-new-post', (req, res) => {
+    const query = "INSERT INTO blog_posts (title, content, country_name, date_of_visit, user_id) VALUES (?)";
+
+    const values = [
+        req.body.title,
+        req.body.content,
+        req.body.country_name,
+        req.body.date_of_visit,
+        req.body.user_id
+    ];
+
+    db.query(query, [values], (err, data) => {
+        if (err) {
+            console.log(err);
+            return res.json(err);
+        }
+        return res.json("Post has been created successfully");
+    });
+});
+
 app.listen(8000, () => {
     console.log("Server is running on port 8000")
 });
