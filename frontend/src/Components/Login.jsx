@@ -18,7 +18,7 @@ function Login() {
           console.log(res.data)
           if(res.data.status==="success"){
             alert("login Successful")
-            navigate("/")
+            window.location.href = "/dashboard";
           }else{
             alert(res.data.error)
           }
