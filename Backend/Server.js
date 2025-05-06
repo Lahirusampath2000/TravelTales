@@ -56,6 +56,14 @@ app.get('/dashboard', verifyUser, (req, res) => {
 
 })
 
+app.get('/', verifyUser, (req, res) => {
+    res.json({ 
+        status: "success",
+        message: "Authenticated",
+        user: req.user 
+    });
+});
+
 
 
 app.post('/register', (req, res) => {
