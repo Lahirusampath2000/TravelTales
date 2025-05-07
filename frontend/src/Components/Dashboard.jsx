@@ -91,7 +91,7 @@ const Dashboard = () => {
               </div>
               <div className="mb-3">
                 <label className="form-label">Date of visit</label>
-                <input className="form-control" rows="4" name="content" value={editPost.date_of_visit} onChange={handleChange}></input>
+                <input type="date" className="form-control" rows="4" name="content" value={editPost.date_of_visit} onChange={handleChange}></input>
               </div>
             </div>
             <div className="modal-footer">
