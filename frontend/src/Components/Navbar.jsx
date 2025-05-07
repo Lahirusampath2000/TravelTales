@@ -38,10 +38,10 @@ const Navbar = () => {
             <Link className="nav-link" to="/">Home</Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/dashboard">Dashboard</Link>
+            <Link className="nav-link" to="/new-post">Dashboard</Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/blog">Blog</Link>
+            <Link className="nav-link" to="/dashboard">Blog</Link>
           </li>
         </ul>
         <div className="d-flex">
