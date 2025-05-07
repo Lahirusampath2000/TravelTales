@@ -7,6 +7,7 @@ import SearchBar from './Search';
 
 const Dashboard = () => {
   const [posts, setPosts] = useState([]);
+  const [filteredPosts, setFilteredPosts] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [editPost, setEditPost] = useState({ id: '', title: '', content: '', country_name: '', date_of_visit: '' });
   const [countries, setCountries] = useState([]);
@@ -31,6 +32,7 @@ const Dashboard = () => {
       .then(res => {
         if (res.data.status === 'success') {
           setPosts(res.data.posts);
+          setFilteredPosts(res.data.posts);
         }
       })
       .catch(err => {
@@ -55,6 +57,20 @@ const Dashboard = () => {
   const handleChange = (e) => {
     setEditPost({ ...editPost, [e.target.name]: e.target.value });
   };
+
+  //search post data
+    const handleSearch = (searchTerm) => {
+        if (!searchTerm) {
+            setFilteredPosts(posts);
+            return;
+          }
+    const filteredPosts = posts.filter(post => 
+      post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      post.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      post.country_name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredPosts(filteredPosts);
+    };
 
   //edit post data
   const handleSaveChanges = () => {
@@ -110,11 +126,11 @@ const Dashboard = () => {
     <div className="container my-5">
         <div className="d-flex justify-content-between align-items-center mb-3">
             <h1>Welcome to the blog</h1>
-            <SearchBar />
+            <SearchBar onSearch={handleSearch} />
         </div>
       
       <div className="row">
-        {posts.map((post) => {
+        {filteredPosts.map((post) => {
             const countryInfo = getCountryInfo(post.country_name);
             return (
             <div className="col-md-6 col-lg-4 mb-4" key={post.id}>
