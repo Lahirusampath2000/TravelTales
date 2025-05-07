@@ -72,6 +72,24 @@ const Dashboard = () => {
       });
   };
 
+  //delete post data
+  const handleDeleteClick = (postId) => {
+    if (window.confirm("Are you sure you want to delete this post?")) {
+      axios.delete(`http://localhost:8000/delete-post/${postId}`, { withCredentials: true })
+        .then(res => {
+          if (res.data.status === 'success') {
+            setPosts(posts.filter(post => post.id !== postId));
+            alert('Post deleted successfully.');
+          } else {
+            console.error("Error deleting post:", res.data.error);
+          }
+        })
+        .catch(err => {
+          console.error("Error deleting post:", err);
+        });
+    }
+  };
+
   return (
     <div className="container my-5">
       <h1 className="mb-4">Welcome to the blog</h1>
@@ -88,7 +106,7 @@ const Dashboard = () => {
               {currentUser === post.user_id && (
                 <div className="card-footer bg-white">
                   <button className="btn btn-sm btn-outline-primary me-2"  data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => handleEditClick(post)}>Edit</button>
-                  <button className="btn btn-sm btn-outline-danger">Delete</button>
+                  <button className="btn btn-sm btn-outline-danger"  onClick={() => handleDeleteClick(post.id)}>Delete</button>
                 </div>
               )}
             </div>
