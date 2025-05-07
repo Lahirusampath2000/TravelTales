@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import * as bootstrap from 'bootstrap';
 import axios from 'axios';
 
 
@@ -25,7 +26,7 @@ const Dashboard = () => {
       });
       
 
-
+      //fetch posts data
     axios.get('http://localhost:8000/get-posts', { withCredentials: true })
       .then(res => {
         if (res.data.status === 'success') {
@@ -35,6 +36,8 @@ const Dashboard = () => {
       .catch(err => {
         console.error("Error fetching posts:", err);
       });
+
+    
   }, []);
 
   const handleEditClick = (post) => {
@@ -43,6 +46,28 @@ const Dashboard = () => {
 
   const handleChange = (e) => {
     setEditPost({ ...editPost, [e.target.name]: e.target.value });
+  };
+
+  //edit post data
+  const handleSaveChanges = () => {
+    axios.put(`http://localhost:8000/update-post/${editPost.id}`, editPost, { withCredentials: true })
+      .then(res => {
+        if (res.data.status === 'success') {
+          setPosts(posts.map(post => (post.id === editPost.id ? { ...post, ...editPost } : post)));
+          setEditPost({ id: '', title: '', content: '', country_name: '', date_of_visit: '' });
+          // Optionally close modal with Bootstrap method:
+          const modal = document.getElementById('exampleModal');
+          if (modal) {
+            const modalInstance = bootstrap.Modal.getInstance(modal);
+            modalInstance?.hide();
+          }
+        } else {
+          console.error("Error updating post:", res.data.error);
+        }
+      })
+      .catch(err => {
+        console.error("Error updating post:", err);
+      });
   };
 
   return (
@@ -87,16 +112,16 @@ const Dashboard = () => {
               </div>
               <div className="mb-3">
                 <label className="form-label">Country</label>
-                <input type="text" className="form-control" name="title" value={editPost.country_name} onChange={handleChange} />
+                <input type="text" className="form-control" name="country_name" value={editPost.country_name} onChange={handleChange} />
               </div>
               <div className="mb-3">
                 <label className="form-label">Date of visit</label>
-                <input type="date" className="form-control" rows="4" name="content" value={editPost.date_of_visit} onChange={handleChange}></input>
+                <input type="date" className="form-control" rows="4" name="date_of_visit" value={editPost.date_of_visit} onChange={handleChange}></input>
               </div>
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              <button type="button" className="btn btn-primary">Save Changes</button>
+              <button type="button" className="btn btn-primary"  onClick={handleSaveChanges}>Save Changes</button>
             </div>
           </div>
         </div>
