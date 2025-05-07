@@ -49,7 +49,7 @@ const Dashboard = () => {
               </div>
               {currentUser === post.user_id && (
                 <div className="card-footer bg-white">
-                  <button className="btn btn-sm btn-outline-primary me-2">Edit</button>
+                  <button className="btn btn-sm btn-outline-primary me-2"  data-bs-toggle="modal" data-bs-target="#exampleModal">Edit</button>
                   <button className="btn btn-sm btn-outline-danger">Delete</button>
                 </div>
               )}
