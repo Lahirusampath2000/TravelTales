@@ -43,7 +43,6 @@ const NewPost = () => {
         <div style={styles.container}>
             <h1 style={styles.heading}>Create a New Blog Post</h1>
             <form onSubmit={handleSubmit} style={styles.form}>
-                {/* Title Input */}
                 <div style={styles.formGroup}>
                     <label htmlFor="title" style={styles.label}>Title</label>
                     <input
@@ -56,8 +55,6 @@ const NewPost = () => {
                         required
                     />
                 </div>
-
-                {/* Content Input */}
                 <div style={styles.formGroup}>
                     <label htmlFor="content" style={styles.label}>Content</label>
                     <textarea
@@ -69,8 +66,6 @@ const NewPost = () => {
                         required
                     />
                 </div>
-
-                {/* Country Name Input */}
                 <div style={styles.formGroup}>
                     <label htmlFor="countryName" style={styles.label}>Country Name</label>
                     <input
@@ -83,8 +78,6 @@ const NewPost = () => {
                         required
                     />
                 </div>
-
-                {/* Date of Visit Input */}
                 <div style={styles.formGroup}>
                     <label htmlFor="dateOfVisit" style={styles.label}>Date of visit</label>
                     <input
