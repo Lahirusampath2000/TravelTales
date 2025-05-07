@@ -9,7 +9,7 @@ const Dashboard = () => {
   const [posts, setPosts] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [editPost, setEditPost] = useState({ id: '', title: '', content: '', country_name: '', date_of_visit: '' });
-
+  const [countries, setCountries] = useState([]);
 
   useEffect(() => {
     // Fetch the current user data
@@ -37,8 +37,16 @@ const Dashboard = () => {
         console.error("Error fetching posts:", err);
       });
 
+       //fetch countries data
+       axios.get("https://restcountries.com/v3.1/all?fields=name,capital,currencies,languages,flags")
+       .then(res => setCountries(res.data))
+       .catch(err => console.error("Error fetching countries:", err));
+
     
   }, []);
+
+ 
+  
 
   const handleEditClick = (post) => {
     setEditPost({ id: post.id, title: post.title, content: post.content, country_name: post.country_name, date_of_visit: new Date(post.date_of_visit).toLocaleDateString()});
@@ -90,29 +98,60 @@ const Dashboard = () => {
     }
   };
 
+  //fetch countries data
+  const getCountryInfo = (countryName) => {
+    return countries.find(country => 
+      country.name.common.toLowerCase() === countryName.toLowerCase() ||
+      country.name.official.toLowerCase() === countryName.toLowerCase()
+    );
+  };
+
   return (
     <div className="container my-5">
       <h1 className="mb-4">Welcome to the blog</h1>
       <div className="row">
-        {posts.map((post) => (
-          <div className="col-md-6 col-lg-4 mb-4" key={post.id}>
-            <div className="card h-100 shadow">
-              <div className="card-body">
-                <h5 className="card-title">{post.title}</h5>
-                <p>{post.content}</p>
-                <p><strong>Country:</strong> {post.country_name}</p>
-                <p><strong>Date of Visit:</strong> {new Date(post.date_of_visit).toLocaleDateString()}</p>
-              </div>
-              {currentUser === post.user_id && (
-                <div className="card-footer bg-white">
-                  <button className="btn btn-sm btn-outline-primary me-2"  data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => handleEditClick(post)}>Edit</button>
-                  <button className="btn btn-sm btn-outline-danger"  onClick={() => handleDeleteClick(post.id)}>Delete</button>
+        {posts.map((post) => {
+            const countryInfo = getCountryInfo(post.country_name);
+            return (
+            <div className="col-md-6 col-lg-4 mb-4" key={post.id}>
+                <div className="card h-100 shadow">
+                <div className="card-body">
+                    <h5 className="card-title">{post.title}</h5>
+                    <p>{post.content}</p>
+                    <p><strong>Country:</strong> {post.country_name}</p>
+                    {countryInfo && (
+                    <div className="country-info">
+                        <img 
+                        src={countryInfo.flags.png} 
+                        alt={`${post.country_name} Flag`} 
+                        className="mb-2"
+                        style={{ width: '80px', border: '1px solid #ddd' }}
+                        />
+                        <p className="mb-1">
+                        <strong>Capital:</strong> {countryInfo.capital?.[0] || 'N/A'}
+                        </p>
+                        <p className="mb-1">
+                        <strong>Currency:</strong> 
+                        {countryInfo.currencies ? 
+                            Object.values(countryInfo.currencies)
+                            .map(c => `${c.name} (${c.symbol})`)
+                            .join(', ') : 'N/A'}
+                        </p>
+                    </div>
+                    )}
+                    <p><strong>Date of Visit:</strong> {new Date(post.date_of_visit).toLocaleDateString()}</p>
                 </div>
-              )}
+                {currentUser === post.user_id && (
+                    <div className="card-footer bg-white">
+                    <button className="btn btn-sm btn-outline-primary me-2"  data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => handleEditClick(post)}>Edit</button>
+                    <button className="btn btn-sm btn-outline-danger"  onClick={() => handleDeleteClick(post.id)}>Delete</button>
+                    </div>
+                )}
+                </div>
             </div>
-          </div>
-        ))}
-      </div>
+            );
+        })}
+     </div>
       {/* Modal for Edit Post */}
       <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog">
