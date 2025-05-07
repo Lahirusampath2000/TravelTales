@@ -206,6 +206,29 @@ app.put('/update-post/:id', verifyUser, (req, res) => {
     });
 });
 
+//delete post route
+app.delete('/delete-post/:id', verifyUser, (req, res) => {
+    const sql = 'DELETE FROM blog_posts WHERE id = ? AND user_id = ?';
+    const values = [req.params.id, req.user.id];
+
+    db.query(sql, values, (err, data) => {
+        if (err) return res.status(500).json({ status: "error", error: "Database error" });
+        
+        if (data.affectedRows > 0) {
+            return res.status(200).json({ 
+                status: "success", 
+                message: "Post deleted successfully" 
+            });
+        } else {
+            return res.status(404).json({ 
+                status: "error", 
+                error: "Post not found or you are not authorized to delete this post" 
+            });
+        }
+    });
+});
+
+
 app.listen(8000, () => {
     console.log("Server is running on port 8000")
 });
