@@ -17,7 +17,6 @@ function Login() {
         .then(res=>{
           console.log(res.data)
           if(res.data.status==="success"){
-            alert("login Successful")
             window.location.href = "/dashboard";
           }else{
             alert(res.data.error)
