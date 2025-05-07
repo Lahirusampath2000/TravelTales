@@ -2,12 +2,27 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 
-const currentUserId = 1;
+
 
 const Dashboard = () => {
   const [posts, setPosts] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
+    // Fetch the current user data
+    axios.get('http://localhost:8000/dashboard', { withCredentials: true })
+      .then(res => {
+        if (res.data.status === 'success') {
+          setCurrentUser(res.data.user.id);
+        } else {
+          console.error("Error fetching user data:", res.data.error);
+        }
+      })
+      .catch(err => {
+        console.error("Error fetching user data:", err);
+      });
+
+
     axios.get('http://localhost:8000/get-posts', { withCredentials: true })
       .then(res => {
         if (res.data.status === 'success') {
@@ -29,7 +44,7 @@ const Dashboard = () => {
               <div className="card-body">
                 <h5 className="card-title">{post.title}</h5>
               </div>
-              {currentUserId === post.user_id && (
+              {currentUser === post.user_id && (
                 <div className="card-footer bg-white">
                   <button className="btn btn-sm btn-outline-primary me-2">Edit</button>
                   <button className="btn btn-sm btn-outline-danger">Delete</button>
