@@ -44,6 +44,8 @@ const Dashboard = () => {
               <div className="card-body">
                 <h5 className="card-title">{post.title}</h5>
                 <p>{post.content}</p>
+                <p><strong>Country:</strong> {post.country_name}</p>
+                
               </div>
               {currentUser === post.user_id && (
                 <div className="card-footer bg-white">
