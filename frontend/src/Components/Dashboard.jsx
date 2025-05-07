@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import * as bootstrap from 'bootstrap';
 import axios from 'axios';
-
+import SearchBar from './Search';
 
 
 const Dashboard = () => {
@@ -108,7 +108,12 @@ const Dashboard = () => {
 
   return (
     <div className="container my-5">
+        <div className="d-flex justify-content-between align-items-center mb-3">
+            <SearchBar  />
+        </div>
+        
       <h1 className="mb-4">Welcome to the blog</h1>
+      
       <div className="row">
         {posts.map((post) => {
             const countryInfo = getCountryInfo(post.country_name);
