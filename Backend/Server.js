@@ -178,6 +178,34 @@ app.get('/get-posts', (req, res) => {
     });
 });
 
+app.put('/update-post/:id', verifyUser, (req, res) => {
+    const sql = 'UPDATE blog_posts SET title = ?, content = ?, country_name = ?, date_of_visit = ? WHERE id = ? AND user_id = ?';
+    const values = [
+        req.body.title,
+        req.body.content,
+        req.body.country_name,
+        req.body.date_of_visit,
+        req.params.id,
+        req.user.id
+    ];
+
+    db.query(sql, values, (err, data) => {
+        if (err) return res.status(500).json({ status: "error", error: "Database error" });
+        
+        if (data.affectedRows > 0) {
+            return res.status(200).json({ 
+                status: "success", 
+                message: "Post updated successfully" 
+            });
+        } else {
+            return res.status(404).json({ 
+                status: "error", 
+                error: "Post not found or you are not authorized to update this post" 
+            });
+        }
+    });
+});
+
 app.listen(8000, () => {
     console.log("Server is running on port 8000")
 });
