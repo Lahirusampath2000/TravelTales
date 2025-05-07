@@ -109,10 +109,9 @@ const Dashboard = () => {
   return (
     <div className="container my-5">
         <div className="d-flex justify-content-between align-items-center mb-3">
-            <SearchBar  />
+            <h1>Welcome to the blog</h1>
+            <SearchBar />
         </div>
-        
-      <h1 className="mb-4">Welcome to the blog</h1>
       
       <div className="row">
         {posts.map((post) => {
