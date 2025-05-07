@@ -40,12 +40,12 @@ const Dashboard = () => {
       <div className="row">
         {posts.map((post) => (
           <div className="col-md-6 col-lg-4 mb-4" key={post.id}>
-            <div className="card h-100">
+            <div className="card h-100 shadow">
               <div className="card-body">
                 <h5 className="card-title">{post.title}</h5>
                 <p>{post.content}</p>
                 <p><strong>Country:</strong> {post.country_name}</p>
-                
+                <p><strong>Date of Visit:</strong> {new Date(post.date_of_visit).toLocaleDateString()}</p>
               </div>
               {currentUser === post.user_id && (
                 <div className="card-footer bg-white">
