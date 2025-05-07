@@ -73,25 +73,28 @@ app.get('/logout', (req, res) => {
 
 app.post('/register', (req, res) => {
     const sql = "INSERT INTO users (`username`, `email`, `password`) VALUES (?)";
-    bcrypt.hash(req.body.password.toString(),salt,(err,hashedPassword)=>{
-        if(err){
+    bcrypt.hash(req.body.password.toString(), salt, (err, hashedPassword) => {
+        if (err) {
             console.log(err);
-            return res.json(err, "Error hashing password");
+            return res.json({ status: "error", message: "Error hashing password" });
         }
-            
-        const values=[
+
+        const values = [
             req.body.username,
             req.body.email,
             hashedPassword
-        ]
+        ];
 
-        db.query(sql,[values],(err,data)=>{
-            if(err)return res.json(err);
-            return res.json("User has been created successfully")
-        })
-    })
-    
-})
+        db.query(sql, [values], (err, data) => {
+            if (err) {
+                console.log(err);
+                return res.json({ status: "error", message: "Database error" });
+            }
+            return res.json({ status: "ok", message: "User has been created successfully" });
+        });
+    });
+});
+
 
 app.post('/login', (req, res) => {
     const sql = 'SELECT * FROM users WHERE email = ?';
