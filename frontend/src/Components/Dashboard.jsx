@@ -55,7 +55,9 @@ const Dashboard = () => {
         if (res.data.status === 'success') {
           setPosts(posts.map(post => (post.id === editPost.id ? { ...post, ...editPost } : post)));
           setEditPost({ id: '', title: '', content: '', country_name: '', date_of_visit: '' });
-          // Optionally close modal with Bootstrap method:
+          
+          alert('Post updated successfully.');
+          
           const modal = document.getElementById('exampleModal');
           if (modal) {
             const modalInstance = bootstrap.Modal.getInstance(modal);
@@ -121,7 +123,7 @@ const Dashboard = () => {
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              <button type="button" className="btn btn-primary"  onClick={handleSaveChanges}>Save Changes</button>
+              <button type="button" className="btn btn-primary"  onClick={handleSaveChanges} data-bs-dismiss="modal">Save Changes</button>
             </div>
           </div>
         </div>
