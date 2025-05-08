@@ -231,6 +231,26 @@ app.delete('/delete-post/:id', verifyUser, (req, res) => {
     });
 });
 
+//one post route
+app.get('/get-post/:id', (req, res) => {
+    const sql = 'SELECT * FROM blog_posts WHERE id = ?';
+    db.query(sql, [req.params.id], (err, data) => {
+        if (err) return res.status(500).json({ status: "error", error: "Database error" });
+        
+        if (data.length > 0) {
+            return res.status(200).json({ 
+                status: "success", 
+                post: data[0] 
+            });
+        } else {
+            return res.status(404).json({ 
+                status: "error", 
+                error: "Post not found" 
+            });
+        }
+    });
+});
+
 
 app.listen(8000, () => {
     console.log("Server is running on port 8000")

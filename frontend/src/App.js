@@ -19,7 +19,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/new-post" element={<NewPost />} />
-          <Route path="/post/:id" element={<OnePostPage />} />
+          <Route path="/posts/:id" element={<OnePostPage />} />
         </Routes>
       </div>
     </Router>
