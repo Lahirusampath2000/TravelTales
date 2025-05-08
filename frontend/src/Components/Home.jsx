@@ -163,7 +163,7 @@ const Home = () => {
                       <div className="card-footer bg-white">
                         <button 
                           className="btn btn-sm btn-outline-primary"
-                          onClick={() => navigate(`/posts/${post.id}`)} // Add navigation if needed
+                          onClick={() => navigate(`/posts/${post.id}`)} 
                         >
                           Read More
                         </button>
