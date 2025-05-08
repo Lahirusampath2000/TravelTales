@@ -1,6 +1,35 @@
-import React from 'react';
+import React, { useState, useEffect, use } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
+
 
 const Home = () => {
+    const[latestPosts,setLatestPosts] = React.useState([]);
+    const [countries, setCountries] = useState([]);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+       //fetch posts data
+       axios.get('http://localhost:8000/get-posts', { withCredentials: true })
+        .then (res => {
+            if (res.data.status === 'success') {
+                const latestPosts = res.data.posts.slice(0, 3); 
+                setLatestPosts(latestPosts);
+            } else {
+                console.error("Error fetching posts:", res.data.error);
+            }
+        })
+        .catch(err => {
+            console.error("Error fetching posts:", err);
+        });  
+
+        axios.get("https://restcountries.com/v3.1/all?fields=name,capital,currencies,languages,flags")
+        .then(res => setCountries(res.data))
+        .catch(err => console.error("Error fetching countries:", err));
+        
+      }, []);
+
   return (
     <div>
       <div style={{ textAlign: 'center', padding: '20px' }}>
