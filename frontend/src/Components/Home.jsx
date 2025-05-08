@@ -45,6 +45,69 @@ const Home = () => {
             <p>Your next adventure begins here!</p>
           </div>
     
+          
+          {/* carousal Section */}
+          <div
+            id="carouselExampleIndicators"
+            className="carousel slide"
+            data-bs-ride="carousel"
+            style={{ height: '700px', overflow: 'hidden' }}
+            >
+            <div className="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" className="active" aria-current="true"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"></button>
+            </div>
+            <div className="carousel-inner" style={{ height: '100%' }}>
+                <div className="carousel-item active">
+                <img
+                    src="/images/carousal/natur_water_sea_travel_sky_beach_turquoise_summer_island_4k_hd.jpg"
+                    className="d-block w-100"
+                    alt="Slide 1"
+                    style={{ height: '100%', objectFit: 'cover' }}
+                />
+                </div>
+                <div className="carousel-item">
+                <img
+                    src="/images/carousal/australia_building_city_night_skyscraper_sydney_opera_house_4k_5k_hd_travel.jpg"
+                    className="d-block w-100"
+                    alt="Slide 2"
+                    style={{ height: '100%', objectFit: 'cover' }}
+                />
+                </div>
+                <div className="carousel-item">
+                <img
+                    src="/images/carousal/wallpaperflare.com_wallpaper.jpg"
+                    className="d-block w-100"
+                    alt="Slide 3"
+                    style={{ height: '100%', objectFit: 'cover' }}
+                />
+                </div>
+            </div>
+            <button
+                className="carousel-control-prev"
+                type="button"
+                data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="prev"
+            >
+                <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span className="visually-hidden">Previous</span>
+            </button>
+            <button
+                className="carousel-control-next"
+                type="button"
+                data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="next"
+            >
+                <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                <span className="visually-hidden">Next</span>
+            </button>
+          </div>
+          <br></br>
+
+          
+          {/* Latest Posts Section */}
+
           <div style={{ 
             display: 'flex',
             alignItems: 'center',
@@ -71,7 +134,6 @@ const Home = () => {
             }} />
           </div>
     
-          {/* Latest Posts Section */}
           <div className="container my-5">
             <div className="row">
               {latestPosts.map((post) => {
