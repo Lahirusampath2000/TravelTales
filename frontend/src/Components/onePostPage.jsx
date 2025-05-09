@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import CommentSection from './CommentSection';
 
 const OnePostPage = () => {
     const { id } = useParams();
     const [post, setPost] = useState(null);
     const [error, setError] = useState(null);
+    const [currentUser, setCurrentUser] = useState(null);
 
     useEffect(() => {
         axios.get(`http://localhost:8000/get-post/${id}`, { withCredentials: true })
@@ -40,6 +42,12 @@ const OnePostPage = () => {
             <p><strong>Country:</strong> {post.country_name}</p>
             <p><strong>Date of Visit:</strong> {new Date(post.date_of_visit).toLocaleDateString()}</p>
             <p>{post.content}</p>
+
+            <div>
+            <CommentSection postId={post.id} currentUser={currentUser} />
+
+            </div>
+        
         </div>
     );
 };
