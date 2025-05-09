@@ -134,7 +134,7 @@ const Dashboard = () => {
             const countryInfo = getCountryInfo(post.country_name);
             return (
             <div className="col-md-6 col-lg-4 mb-4" key={post.id}>
-                <div className="card h-100 shadow">
+                <div className="card shadow-sm">
                 <div className="card-body">
                     <h5 className="card-title">{post.title}</h5>
                     <p>{post.content}</p>
