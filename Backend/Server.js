@@ -181,6 +181,7 @@ app.get('/get-posts', (req, res) => {
     });
 });
 
+//update post route
 app.put('/update-post/:id', verifyUser, (req, res) => {
     const sql = 'UPDATE blog_posts SET title = ?, content = ?, country_name = ?, date_of_visit = ? WHERE id = ? AND user_id = ?';
     const values = [
@@ -251,7 +252,36 @@ app.get('/get-post/:id', (req, res) => {
     });
 });
 
-
+//add comment route
+app.post('/add-comment/:postId', verifyUser, (req, res) => {
+    const sql = "INSERT INTO comments (content, blog_post_id, user_id) VALUES (?)";
+    const values = [
+      req.body.content,
+      req.params.postId,
+      req.user.id
+    ];
+  
+    db.query(sql, [values], (err, data) => {
+      if (err) {
+        console.error("Database error:", err);
+        return res.status(500).json({ 
+          status: "error", 
+          error: "Failed to add comment" 
+        });
+      }
+  
+      return res.status(200).json({ 
+        status: "success", 
+        comment: {
+          id: data.insertId,
+          content: req.body.content,
+          user_id: req.user.id,
+          created_at: new Date(),
+          user_name: req.user.name 
+        }
+      });
+    });
+  });
 
 
 app.listen(8000, () => {

@@ -16,16 +16,23 @@ const CommentSection = ({ postId, currentUser }) => {
       .catch(err => console.error('Error fetching comments:', err));
   }, [postId]);
 
-  axios.post(`http://localhost:8000/posts/${postId}/comments`, { content: newComment }, { withCredentials: true })
+  const handlePostComment = () => {
+    if (!newComment.trim()) return;
+
+    axios.post(`http://localhost:8000/add-comment/${postId}`, 
+      { content: newComment }, 
+      { withCredentials: true }
+    )
     .then(res => {
       if (res.data.status === 'success') {
-        setComments([...comments, res.data.comment]);
+        setComments(prev => [...prev, res.data.comment]);
         setNewComment('');
       } else {
         console.error('Error posting comment:', res.data.error);
       }
     })
     .catch(err => console.error('Error posting comment:', err));
+  };
 
 
 
@@ -41,7 +48,7 @@ const CommentSection = ({ postId, currentUser }) => {
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
         />
-        <button className="btn btn-primary" onClick={newComment}>Post</button>
+        <button className="btn btn-primary" onClick={handlePostComment}>Post</button>
       </div>
 
       <div className="comments-list">
@@ -52,12 +59,7 @@ const CommentSection = ({ postId, currentUser }) => {
               <small>{new Date(comment.created_at).toLocaleString()}</small>
             </div>
             <p className="mb-1">{comment.content}</p>
-            <button
-              className="btn btn-sm btn-outline-secondary"
-
-
-            >
-            </button>
+           
           </div>
         ))}
       </div>

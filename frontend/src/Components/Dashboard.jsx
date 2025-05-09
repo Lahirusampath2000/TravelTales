@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import * as bootstrap from 'bootstrap';
 import axios from 'axios';
 import SearchBar from './Search';
+import { useNavigate } from 'react-router-dom';
 
 
 const Dashboard = () => {
@@ -11,6 +12,7 @@ const Dashboard = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [editPost, setEditPost] = useState({ id: '', title: '', content: '', country_name: '', date_of_visit: '' });
   const [countries, setCountries] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch the current user data
@@ -129,49 +131,77 @@ const Dashboard = () => {
             <SearchBar onSearch={handleSearch} />
         </div>
       
-      <div className="row">
-        {filteredPosts.map((post) => {
-            const countryInfo = getCountryInfo(post.country_name);
-            return (
-            <div className="col-md-6 col-lg-4 mb-4" key={post.id}>
-                <div className="card shadow-sm">
-                <div className="card-body">
-                    <h5 className="card-title">{post.title}</h5>
-                    <p>{post.content}</p>
-                    <p><strong>Country:</strong> {post.country_name}</p>
-                    {countryInfo && (
-                    <div className="country-info">
-                        <img 
+     
+    <div className="row">
+      {filteredPosts.map((post) => {
+        const countryInfo = getCountryInfo(post.country_name);
+        return (
+          <div className="col-md-6 col-lg-4 mb-4" key={post.id}>
+            <div className="card shadow-sm h-100">
+              <div className="card-body d-flex flex-column">
+                <h5 className="card-title">{post.title}</h5>
+                <p className="card-text flex-grow-1">{post.content}</p>
+                
+                {/* Country Information Section */}
+                <div className="mt-auto">
+                  <p><strong>Country:</strong> {post.country_name}</p>
+                  {countryInfo && (
+                    <div className="country-info mb-3">
+                      <img 
                         src={countryInfo.flags.png} 
                         alt={`${post.country_name} Flag`} 
-                        className="mb-2"
-                        style={{ width: '80px', border: '1px solid #ddd' }}
-                        />
-                        <p className="mb-1">
+                        className="img-thumbnail mb-2"
+                        style={{ width: '80px' }}
+                      />
+                      <p className="mb-1">
                         <strong>Capital:</strong> {countryInfo.capital?.[0] || 'N/A'}
-                        </p>
-                        <p className="mb-1">
+                      </p>
+                      <p className="mb-1">
                         <strong>Currency:</strong> 
                         {countryInfo.currencies ? 
-                            Object.values(countryInfo.currencies)
+                          Object.values(countryInfo.currencies)
                             .map(c => `${c.name} (${c.symbol})`)
                             .join(', ') : 'N/A'}
-                        </p>
+                      </p>
                     </div>
-                    )}
-                    <p><strong>Date of Visit:</strong> {new Date(post.date_of_visit).toLocaleDateString()}</p>
+                  )}
+                  <p><strong>Date of Visit:</strong> {new Date(post.date_of_visit).toLocaleDateString()}</p>
                 </div>
-                {currentUser === post.user_id && (
-                    <div className="card-footer bg-white">
-                    <button className="btn btn-sm btn-outline-primary me-2"  data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => handleEditClick(post)}>Edit</button>
-                    <button className="btn btn-sm btn-outline-danger"  onClick={() => handleDeleteClick(post.id)}>Delete</button>
+
+                {/* Action Buttons Section */}
+                <div className="card-footer bg-white d-flex justify-content-between align-items-center">
+                  <button 
+                    className="btn btn-link text-decoration-none"
+                    onClick={() => navigate(`/posts/${post.id}`)}
+                  >
+                    Read More →
+                  </button>
+                  
+                  {currentUser === post.user_id && (
+                    <div className="btn-group">
+                      <button 
+                        className="btn btn-sm btn-outline-primary" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#exampleModal" 
+                        onClick={() => handleEditClick(post)}
+                      >
+                        Edit
+                      </button>
+                      <button 
+                        className="btn btn-sm btn-outline-danger" 
+                        onClick={() => handleDeleteClick(post.id)}
+                      >
+                        Delete
+                      </button>
                     </div>
-                )}
+                  )}
                 </div>
+              </div>
             </div>
-            );
-        })}
-     </div>
+          </div>
+        );
+      })}
+    </div>
       {/* Modal for Edit Post */}
       <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog">
