@@ -38,7 +38,7 @@ function Login() {
                 type="email"
                 className="form-control"
                 onChange={(e)=>setValues({...values,email:e.target.value})}
-                placeholder="john@example.com"
+                placeholder="Enter your email address"
                 required
               />
             </div>

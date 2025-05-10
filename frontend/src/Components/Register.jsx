@@ -40,7 +40,7 @@ import axios from "axios";
               <input
                 type="text"
                 className="form-control"
-                placeholder="johndoe123"
+                placeholder="Enter your username"
                 onChange={(e)=>setValues({...values,username:e.target.value})}
                 required
               />
@@ -51,7 +51,7 @@ import axios from "axios";
               <input
                 type="email"
                 className="form-control"
-                placeholder="john@example.com"
+                placeholder="Enter your email address"
                 onChange={(e)=>setValues({...values,email:e.target.value})}
                 required
               />
