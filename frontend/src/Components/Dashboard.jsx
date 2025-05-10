@@ -83,6 +83,7 @@ const Dashboard = () => {
           setEditPost({ id: '', title: '', content: '', country_name: '', date_of_visit: '' });
           
           alert('Post updated successfully.');
+          window.location.reload(); 
           
           const modal = document.getElementById('exampleModal');
           if (modal) {
