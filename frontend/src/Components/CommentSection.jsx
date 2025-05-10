@@ -59,7 +59,6 @@ const CommentSection = ({ postId, currentUser }) => {
               <small>{new Date(comment.created_at).toLocaleString()}</small>
             </div>
             <p className="mb-1">{comment.content}</p>
-           
           </div>
         ))}
       </div>

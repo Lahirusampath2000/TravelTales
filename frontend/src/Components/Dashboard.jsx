@@ -106,6 +106,7 @@ const Dashboard = () => {
           if (res.data.status === 'success') {
             setPosts(posts.filter(post => post.id !== postId));
             alert('Post deleted successfully.');
+            window.location.reload(); 
           } else {
             console.error("Error deleting post:", res.data.error);
           }
