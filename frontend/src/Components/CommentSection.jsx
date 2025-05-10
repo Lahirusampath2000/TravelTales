@@ -7,12 +7,12 @@ const CommentSection = ({ postId, currentUser }) => {
 
   
   useEffect(() => {
-    axios.get(`http://localhost:8000/posts/${postId}/comments`, { withCredentials: true })
-      .then(res => {
-        if (res.data.status === 'success') {
-          setComments(res.data.comments);
-        }
-      })
+    axios.get(`http://localhost:8000/get-comments/${postId}`, { withCredentials: true })
+        .then(res => {
+            if (res.data.status === 'success') {
+                setComments(res.data.comments);
+            }
+        })
       .catch(err => console.error('Error fetching comments:', err));
   }, [postId]);
 

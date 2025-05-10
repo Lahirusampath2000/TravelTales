@@ -283,6 +283,31 @@ app.post('/add-comment/:postId', verifyUser, (req, res) => {
     });
   });
 
+  //fetch comments 
+
+  app.get('/get-comments/:postId', (req, res) => {
+    const sql = `
+        SELECT c.*, u.username as user_name 
+        FROM comments c 
+        JOIN users u ON c.user_id = u.id 
+        WHERE c.blog_post_id = ? 
+        ORDER BY c.created_at DESC
+    `;
+    db.query(sql, [req.params.postId], (err, data) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ 
+                status: "error", 
+                error: "Database error" 
+            });
+        }
+        return res.json({ 
+            status: "success", 
+            comments: data 
+        });
+    });
+});
+
 
 app.listen(8000, () => {
     console.log("Server is running on port 8000")
